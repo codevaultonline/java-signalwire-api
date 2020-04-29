@@ -1,0 +1,24 @@
+{
+  "account_sid": "6c1441d5-d133-4598-a61f-164e7b51b5c6",
+  "api_version": "v1",
+  "date_created": "2000-01-23T01:23:45Z",
+  "date_updated": "2000-01-23T02:34:56Z",
+  "direction": "inbound",
+  "from": "+15551234567",
+  "media_url": "https://files.signalwire.com/2d52a95d-ad85-4ea0-87cc-ff30529168fc/6c1441d5-d133-4598-a61f-164e7b51b5c6/faxes/85e1cf6a-acfa-4142-af3f-015269dfe7ed.pdf",
+  "media_sid": "dfee8668-fe5f-436a-a5c2-78c4d6d5b86d",
+  "num_pages": 123,
+  "price": 0.123456,
+  "price_unit": "USD",
+  "quality": null,
+  "sid": "d4f22128-3d48-44d9-8fcc-1ad00ff9be9d",
+  "status": "received",
+  "to": "+15557654321",
+  "duration": 1234,
+  "links": {
+    "media": "/api/laml/2010-04-01/Accounts/6c1441d5-d133-4598-a61f-164e7b51b5c6/Faxes/ef40129c-cde0-4f67-99db-991a6fa8ba45/Media"
+  },
+  "url": "/api/laml/2010-04-01/Accounts/6c1441d5-d133-4598-a61f-164e7b51b5c6/Faxes/ef40129c-cde0-4f67-99db-991a6fa8ba45",
+  "error_code": null,
+  "error_message": null
+}
