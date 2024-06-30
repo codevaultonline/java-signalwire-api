@@ -1,6 +1,5 @@
 package online.codevault.com.signalwire.api;
 
-import com.google.gson.Gson;
 import online.codevault.com.signalwire.api.models.SignalWireApiError;
 
 public class SignalWireApiException extends Exception {
@@ -11,9 +10,8 @@ public class SignalWireApiException extends Exception {
 
         super(s);
 
-        Gson gson = new Gson();
         try {
-            this.errorObject = gson.fromJson(s, SignalWireApiError.class);
+            this.errorObject = ObjectMapperHelper.getInstance().readValue(s, SignalWireApiError.class);
         } catch (Exception ex) {
         }
 
@@ -22,5 +20,5 @@ public class SignalWireApiException extends Exception {
     public SignalWireApiError getErrorObject() {
         return errorObject;
     }
-    
+
 }
