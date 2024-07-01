@@ -1,13 +1,11 @@
 package online.codevault.com.signalwire.api;
 
-import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import kong.unirest.core.*;
+import kong.unirest.core.json.JSONArray;
+import kong.unirest.core.json.JSONObject;
+import lombok.Getter;
 import online.codevault.com.signalwire.api.models.Fax;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,13 +13,18 @@ import java.util.List;
 
 public class SignalWire {
 
-    private final String baseUrl;
+    @Getter
     private final String spaceId;
+
+    @Getter
     private final String accountSid;
+
+    @Getter
     private final String projectId;
+
     private final String token;
+
     private final String apiBaseUrl;
-    private final Gson gson = new Gson();
 
     public SignalWire(String spaceId, String accountSid, String projectId, String token) {
 
@@ -29,7 +32,7 @@ public class SignalWire {
         this.accountSid = accountSid;
         this.projectId = projectId;
         this.token = token;
-        this.baseUrl = String.format("https://%s.signalwire.com", spaceId, accountSid);
+        String baseUrl = String.format("https://%s.signalwire.com", spaceId);
         this.apiBaseUrl = String.format("%s/api/laml/2010-04-01/Accounts/%s", baseUrl, accountSid);
 
     }
@@ -65,7 +68,12 @@ public class SignalWire {
         List<Fax> faxes = new ArrayList<>();
 
         jsonFaxes.forEach(f -> {
-            Fax fax = gson.fromJson(f.toString(), Fax.class);
+            Fax fax = null;
+            try {
+                fax = ObjectMapperHelper.getInstance().readValue(f.toString(), Fax.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
             fax.setApiReference(this);
             faxes.add(fax);
         });
@@ -88,7 +96,11 @@ public class SignalWire {
                 throw new SignalWireApiException(response.getBody());
             }
 
-            return gson.fromJson(response.getBody(), Fax.class);
+            try {
+                return ObjectMapperHelper.getInstance().readValue(response.getBody(), Fax.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
 
         } catch (UnirestException e) {
             throw new SignalWireApiException(e.getMessage());
@@ -111,7 +123,11 @@ public class SignalWire {
                 throw new SignalWireApiException(response.getBody());
             }
 
-            return gson.fromJson(response.getBody(), Fax.class);
+            try {
+                return ObjectMapperHelper.getInstance().readValue(response.getBody(), Fax.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
 
         } catch (UnirestException e) {
             throw new SignalWireApiException(e.getMessage());
@@ -121,13 +137,13 @@ public class SignalWire {
 
     public InputStream getFaxContentFromFaxObject(Fax fax) throws SignalWireApiException, UnirestException {
 
-        HttpResponse<InputStream> response = Unirest.get(fax.getMediaUrl()).asBinary();
+        HttpResponse<InputStream> response = Unirest.get(fax.getMediaUrl()).asObject(RawResponse::getContent);
 
         if (200 != response.getStatus()) {
             throw new SignalWireApiException(response.getStatusText());
         }
 
-        return response.getRawBody();
+        return response.getBody();
 
     }
 
@@ -148,7 +164,11 @@ public class SignalWire {
                 throw new SignalWireApiException(response.getBody().toString());
             }
 
-            return gson.fromJson(response.getBody().toString(), Fax.class);
+            try {
+                return ObjectMapperHelper.getInstance().readValue(response.getBody().toString(), Fax.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
 
         } catch (UnirestException e) {
             throw new SignalWireApiException(e.getMessage());

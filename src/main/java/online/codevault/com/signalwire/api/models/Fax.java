@@ -2,46 +2,52 @@ package online.codevault.com.signalwire.api.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.annotations.SerializedName;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import online.codevault.com.signalwire.api.SignalWire;
 import online.codevault.com.signalwire.api.SignalWireApiException;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Fax {
 
     @JsonIgnore
     private SignalWire apiReference;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    @SerializedName("date_created")
-    private Date dateCreated;
+    @JsonProperty("date_created")
+    private LocalDateTime dateCreated;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
-    @SerializedName("date_updated")
-    private Date dateUpdated;
+    @JsonProperty("date_updated")
+    private LocalDateTime dateUpdated;
 
-    @SerializedName("api_version")
+    @JsonProperty("api_version")
     private String apiVersion;
 
     private String direction;
     private String from;
 
-    @SerializedName("media_url")
+    @JsonProperty("media_url")
     private String mediaUrl;
 
-    @SerializedName("media_sid")
+    @JsonProperty("media_sid")
     private String mediaSid;
 
-    @SerializedName("num_pages")
+    @JsonProperty("num_pages")
     private int pageCount;
 
     private BigDecimal price;
 
-    @SerializedName("price_unit")
+    @JsonProperty("price_unit")
     private String priceCurrencyCode;
     private String quality;
     private String sid;
@@ -55,142 +61,6 @@ public class Fax {
         this.apiReference = apiReference;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Date getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public void setDateUpdated(Date dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
-
-    public String getApiVersion() {
-        return apiVersion;
-    }
-
-    public void setApiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getMediaUrl() {
-        return mediaUrl;
-    }
-
-    public void setMediaUrl(String mediaUrl) {
-        this.mediaUrl = mediaUrl;
-    }
-
-    public String getMediaSid() {
-        return mediaSid;
-    }
-
-    public void setMediaSid(String mediaSid) {
-        this.mediaSid = mediaSid;
-    }
-
-    public int getPageCount() {
-        return pageCount;
-    }
-
-    public void setPageCount(int pageCount) {
-        this.pageCount = pageCount;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public String getPriceCurrencyCode() {
-        return priceCurrencyCode;
-    }
-
-    public void setPriceCurrencyCode(String priceCurrencyCode) {
-        this.priceCurrencyCode = priceCurrencyCode;
-    }
-
-    public String getQuality() {
-        return quality;
-    }
-
-    public void setQuality(String quality) {
-        this.quality = quality;
-    }
-
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public MediaLink getLinks() {
-        return links;
-    }
-
-    public void setLinks(MediaLink links) {
-        this.links = links;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public void cancel() throws SignalWireApiException {
         apiReference.cancelFax(getSid());
     }
@@ -199,11 +69,7 @@ public class Fax {
         apiReference.deleteFax(getSid());
     }
 
-    public void setApiReference(SignalWire apiReference) {
-        this.apiReference = apiReference;
-    }
-
-    public InputStream getContent() throws SignalWireApiException, UnirestException {
+    public InputStream getContent() throws SignalWireApiException {
         return apiReference.getFaxContentFromFaxObject(this);
     }
 

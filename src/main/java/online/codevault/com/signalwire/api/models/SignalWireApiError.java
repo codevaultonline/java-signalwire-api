@@ -1,7 +1,11 @@
 package online.codevault.com.signalwire.api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class SignalWireApiError {
 
     private String code;
@@ -12,35 +16,4 @@ public class SignalWireApiError {
 
     private String status;
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getMoreInfo() {
-        return moreInfo;
-    }
-
-    public void setMoreInfo(String moreInfo) {
-        this.moreInfo = moreInfo;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
