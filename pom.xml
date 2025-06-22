@@ -4,7 +4,7 @@
 
     <groupId>online.codevault.signalwire</groupId>
     <artifactId>api</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>SignalWire API for Java</name>
 
     <properties>
@@ -15,7 +15,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github-codevaultonline:codevaultonline/java-signalwire-api.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.0.0</tag>
     </scm>
 
     <dependencyManagement>
